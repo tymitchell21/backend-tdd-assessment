@@ -9,29 +9,54 @@ import sys
 import argparse
 import os
 
-def echo(target):
-    print(target)
-    return target
+def to_lower(text):
+    return text.lower()
+
+
+def to_upper(text):
+    return text.upper()
+
+
+def to_title(text):
+    return " ".join([word[0].upper() + word[1:].lower() for word in text.split(' ')])
 
 
 def create_parser():
     """Creates and returns an argparse cmd line option parser"""
-    parser = argparse.ArgumentParser(description='Process echo command.')
-    parser.add_argument('target',
-                    help='an item to be echoed')
-
-    return parser.parse_args()
+    parser = argparse.ArgumentParser(description='Perform transformation on input text.')
+    parser.add_argument('text',
+                    help='text to be manipulated')
+    # exc_group = parser.add_mutually_exclusive_group()
+    parser.add_argument('-u', '--upper',
+        help='convert text to uppercase',
+        action='store_true')
+    parser.add_argument('-l', '--lower',
+        help='convert text to lowercase',
+        action='store_true')
+    parser.add_argument('-t', '--title',
+        help='convert text to titlecase',
+        action='store_true')
+    return parser
 
 
 def main():
     """Implementation of echo"""
-    args = create_parser()
+    args = create_parser().parse_args()
 
-    if not args.target:
+    if not args.text:
         print('Please specify something to be echoed.')
         return
 
-    print(echo(args.target))
+    text = args.text
+
+    if args.upper:
+        text = to_upper(text)
+    if args.lower:
+        text = to_lower(text)
+    if args.title:
+        text = to_title(text)
+
+    print(text)
 
 
 if __name__ == '__main__':
