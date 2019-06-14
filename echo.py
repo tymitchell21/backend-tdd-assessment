@@ -9,6 +9,7 @@ import sys
 import argparse
 import os
 
+
 def to_lower(text):
     return text.lower()
 
@@ -18,7 +19,7 @@ def to_upper(text):
 
 
 def to_title(text):
-    return " ".join([word[0].upper() + word[1:].lower() for word in text.split(' ')])
+    return text.title()
 
 
 def create_parser():
@@ -26,7 +27,9 @@ def create_parser():
     parser = argparse.ArgumentParser(description='Perform transformation on input text.')
     parser.add_argument('text',
                     help='text to be manipulated')
+
     # exc_group = parser.add_mutually_exclusive_group()
+
     parser.add_argument('-u', '--upper',
         help='convert text to uppercase',
         action='store_true')
@@ -36,6 +39,7 @@ def create_parser():
     parser.add_argument('-t', '--title',
         help='convert text to titlecase',
         action='store_true')
+
     return parser
 
 
